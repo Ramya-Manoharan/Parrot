@@ -1,0 +1,408 @@
+GIT
+
+Create a EC2 instance with linux (ubuntu will have default git installed)
+
+run the instance in putty
+
+mkdir Test (creating a working directory)
+cd Test (opening working directory)
+yum install git -y (install git)
+git --version (check git version)
+git init (initiallizing git - Git will be initialized empty git repository in Test folder)
+vi samplefile (creating a file inside the git working repo)
+git status (output - no commits yet Untracked files) need to add the file to staging area after that only we can able to commit the file
+git status -s (?? is untracked file)
+git add samplefile
+git status -s (A is added)
+vi samplefile (edit the file)
+git status -s (M is modified file)
+git add .(. represent to add all the file)
+git status -s 
+git commit -m "third file" 
+
+File commited
+
+DECLRING USER DETAILS TO THE GIT
+
+Need to declare the user details
+git config --global user.name "Ramya-Manoharan" (declaring the user name)
+git config --global user.email "Ramya1010aws@gmail.com" (declaring the user email)
+git log (checking the user log in git)
+git log --oneline (log in one line)
+
+vi sample (modify the file)
+git status -s
+
+git commit -m "All done"
+git status -s (if there is no status shown no pending work to be done)
+git log -- one line
+git branch (to check what are the branches available (master slave config))
+=> * master
+
+CREATING A REPO IN GITHUB AND PUSH IN GIT FOR UPLOADING FILE IN GITHUB
+
+github.com -> settings -> Developer settings -> personal access token (create a token with all access which works like key pair)	
+Create a new repository as public in github
+
+git remote add origin https://github.com/USERNAME/REPO_NAME.git (give this comment to add orgin to git server
+git branch -M main (to convert master branch to main branch)
+git branch 
+=> * main
+git push -u origin main
+=> username: ramya
+=> password: PASTE THE CREATED TOKEN  (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)	
+
+refresh the git repo in github to view the file pushed.
+
+vi samplefile (add another line)
+
+git status
+git add
+git status
+git commit -m "Line added"
+git status
+git push -u orgin main
+=> username: ramya
+=> password: PASTE THE CREATED TOKEN
+
+check the repo in github for changes
+
+CHANGING BRANCHES
+
+git branch dev (creating a dev branch)
+git branch
+=>  dev
+  * main
+git checkout dev (getting into the dev branch)
+git branch
+=>* dev
+    main
+ 
+
+COMMIT FILE USING DIFFERNET BRANCH CHANGES
+
+vi samplefile (make any changes)
+git status
+git add samplefile
+git status
+git commit -m "Modified"
+
+git checkout main
+=> switched to main branch
+git merge dev
+
+git push-u origin main
+=> username: ramya
+=> password: PASTE THE CREATED TOKEN
+
+
+Refresh github to see the changes
+
+MERGE CONFLICT (two users working on same file and committing)
+
+git status in root directory will not work as git was not initialized in root directory
+
+mkdir sample_dir
+cd sample_dir/
+git init (git initialized in sample_dir)
+
+vi lap (creating a new file) (Line 1, Line 2)
+git status
+git add lap
+git status -s
+git commit -m "One line"
+git status -s
+
+git branch
+=> master
+git branch slave1
+git branch
+=>* master
+    slave1
+git branch slave2
+git branch
+=>* master
+    slave1
+    slave2
+git checkout slave1 (changing to slave branch)
+=> switched to slave1
+vi lap (make any changes) (Line 1, Line 2, Line 3)
+cat lap
+=> Line 1 
+   Line 2
+   Line 3
+git status
+git commit -am "commited" (adding and commiting on same time)
+git status
+git checkout master (changing to master branch)
+cat lap
+=> Line 1 
+   Line 2
+git merge slave1
+cat lap
+=> Line 1 
+   Line 2
+   Line 3
+git checkout slave2 (other user modifying the same file
+cat lap
+=> Line 1 
+   Line 2
+vi lap (slave to making changes) (line 1, line2, line4)
+git status
+git commit -am "commited"
+git checkout master
+git merge slave2
+=> Auto-mergin lap
+   CONFLICT (content) : Merge conflict in lap
+   Automatic merge failed; fix conflicts and then commit the result.
+
+Need to user merge tool to avoid mergeconflit
+To configure merge tool user below codes
+
+git config --global merge.tool vimdiff (to differntiate they user VIM editor)
+git config --global merge.conflictstyle diff3 (using 3 conflict differentiating style)
+git config --global mergetool.prompt false (to avoid merge tool prompt dialogue box appearing each time while merge)
+
+git mergetool (Ctrl + W to switch tabs)
+
+:diffg BASE (to select base code)
+:diffg REM (to select remote code)
+:diffg LOCAL (to select local code)
+
+we can also modify our own at the below 
+
+:wqa (saving all and quit)
+
+git branch
+=> * master
+     slave1
+     slave2
+cat lap
+=> Line 1
+   Line 2
+   Line 3
+   Line 4
+
+git status
+=> All conflicts fixed but you are still merging
+ls- lrt (to list all files that are created during mergeconflict
+
+git status
+
+git commit -m "Final"
+git clean -fd (to delete all untracked files)
+
+need to add origin in the sample_dir
+
+git remote add origin https://github.com/USERNAME/REPO_NAME.git (give this comment to add orgin to git server)
+git push-u origin master
+=> username: ramya
+=> password: PASTE THE CREATED TOKEN
+
+check github for changes (choose branches)
+
+
+history (to check all the previously used codes)
+
+NOTE:
+
+-am will not work on first time, first you have to add the file and then commit 
+from the second commit -am will work.
+
+Head -> current branch
+
+
+
+
+
+
+GIT PART 3
+
+mkdir Test (Creating a git repository)
+ls
+cd Test
+git init (Initializing git repo)
+git log
+=> your current branch 'master does not have any commit (initially you will have only master branch and will not contain any logs untill you commit)
+vi one (Creating file one "First Line")
+cat one
+=> First Line
+git status
+git add one
+git status
+git commit -m "First commit"
+git log
+
+git config user.name "Ramya"
+git config user.email "ramya1010aws@gmail.com"
+
+git config --global merge.tool vimdiff
+git config --global merge.conflictstyle diff3
+git config --global mergetool.prompt false
+
+vi one (add a line "Second Line")
+git status -s
+git commit -am "Second commit"
+git status -s
+git log
+
+git branch Dev
+git branch
+=>  Dev
+  * master
+git checkout dev
+ls
+=> one
+cat one
+=> First Line
+   Second Line
+git branch
+=>* Dev
+    master
+git log
+=> (Head -> Dev, master) (dev and master having the same files and content)
+
+vi two (creating file two from dev branch "Ramya")
+ls
+=> one two
+git checkout master
+ls
+=> one two
+cat two
+git commit -am "Commit"
+=> As two is a new file and not added yet we cannot use -am first need to add the Two file and then commit
+git add two
+git commit -m "commit two"
+git status 
+
+
+
+Merge concept (master to slave merge)
+
+first you have to create a file in a master (file one and two) with some data like line one, line two
+and then add and commit the file 
+then check status should get no output
+
+then create a slave branch slave branc will have the same file as master
+then got to master and make some changes in master branch file one
+commit that in master branch
+change to slave branch and check file one
+the changes made in master branch will not be updated in slave branch
+to make that changes happen
+
+git merge slave
+cat one 
+=> output as same as master branch
+
+
+GIT PART 3 - concept starts here (Rebase)
+
+
+cd..
+ls
+=> test
+mkdir git3-rebase
+cd git3-rebase
+git init (this command is used to initiate git in this folder)
+git config user.name "Ramya"
+git config user.email "ramya1010aws@gmail.com"
+
+git log
+=> current branch is master
+vi one (First line)
+git add .
+git commit -m "First commit"
+git status -s
+
+vi one (First line, Second line)
+git commit -am "Second commit"
+git branch
+=> * master
+git branch slave
+git checkout slave
+ls
+=> one
+cat one
+=> First line
+   Second line
+git log
+=> (HEAD -> slave, master)
+git checkout master
+vi one (First line, Second line, Third line)
+cat one
+=> First line
+   Second line
+   Third line
+git commit -am "Third commit"
+git log
+=> (HEAD -> master)
+   (slave)
+git checkout slave
+ls
+=> one
+cat one
+=> First line
+   Second line
+git branch 
+=>  master
+  * slave
+vi two (Hello)
+ls 
+=> one two
+git add two
+git commit -m "New file"
+git status 
+=> nothing to commit, workin tree clean
+
+git checkout slave
+=> switched to branch 'slave'
+git rebase master
+=> successfully rebased and updated refs/heads/slave
+
+ls
+=> one two
+cat one
+=> First line
+   Second line
+   Third line
+git checkout master
+ls
+=> one
+cat one
+=> First line
+   Second line
+   Third line
+git checkout master
+git merge slave
+
+
+PULL and FORK 
+
+cd /
+mkdir New
+git init
+git pull http****  (repo link from the git hub you need to pull)
+ls 
+=> *** (files in the repo pulled)
+
+need to learn ourself
+
+git cherrypick
+git stach
+git tags
+
+successful git branching model - nvie.com
+
+mostly asked in interview recently
+
+
+
+
+	
+
+
+
+
+
+
+
