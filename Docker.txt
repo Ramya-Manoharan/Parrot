@@ -1,0 +1,101 @@
+Container - closed environment, reduced booting time
+
+hub.docker.com
+
+Docker Image --> AMI Amazon Machine Image (we can create n number of containers using docker image(
+
+Containers --> Isolated environment
+Port forwarding
+
+DOCKER IMAGES
+
+Create a EC2 Instance with ubuntu20 with All TCP with 30gb
+
+apt install docker.io -y
+docker --version
+docker pull httpd (downloading apache image)
+docker images (to check images we have )
+
+docker run -itd -p "9090:80" httpd (run instance ip with 7070)
+docker ps (to check containers)
+
+Hit ip with :9090
+docker run -itd -p "7070:80" httpd (run instance ip with 7070)
+docker ps
+
+docker exec -it ***(container id) /bin/bash (to get into container)
+ls -lrt
+cd htdocs/
+ls
+=> index.html
+cat index.html (view file output)
+vi index.html (will not execute as we do not have vim editor installed wich is not available in container)
+apt update
+apt install vim -y
+vi index.html (make changes) to check changes refresh the chrome page
+exit (to exit from container)
+
+docker run -itd -p "8081:80" nginx (we can create a container directly with nginx without pulling)
+docker image
+=> nginx
+   httpd
+docker ps (will display 3 containers)
+docker stop ***container id (to stop a container)
+docker ps (will display only active containers)
+docker ps -a (will display active and stopped containers)
+docker rm ***container id (to remove a container)
+### we cannot remove a running container we need to stop the container first
+docker rm -f ***container id (will remove the active container without stopping)
+### removing containers will not delete the docker images
+docker images
+=> nginx
+   httpd
+docker rmi nginx (to remove docker images)
+
+docker stats - will display the statistic of the docker container
+
+
+DOCKET CLASS 2
+
+docker run -itd -p "8080:80" httpd
+docker images
+docker ps -a
+docker run -itd -p "8081:80" httpd
+docker run -itd -p "8083:80" httpd
+docker run -itd -p "8084:80" nginx
+
+docker system prune (will remove all stopped containers)
+## First you have to stop the container
+docker ps -a
+docker stop ** ** ** (first 3 letter of all container id to stop all containers)
+docker images prune -a (will remove images without atlease one container associated to them)
+docker images
+docker run -itd -p "7070:80"nginx
+docker ps
+docker exec -it ****container id /bin/bash
+vi index.html
+apt update
+apt install vim -y
+apt-get install git -y
+exit
+
+CONVERT CUSTOMISED CONTAINER INTO IMAGE
+
+LOCAL
+
+docker commit bba myimage (to create our own image)
+docker image (list image)
+
+docker save -o /root/myimage.tar myimage(to save my image in .tar format)
+docker load -i myimage.tar  (to load our image)
+
+ONLINE
+
+docker login
+=> username, password
+docker images
+docker tag myimage ramya/nginxvimgit (creating another image with a new name)
+docker push ramya/nginxvimgit (to save our image online)
+
+
+
